@@ -1,4 +1,4 @@
-CMakeFiles/PDFtoImageConverter.dir/src/main.cpp.o: \
+CMakeFiles/App.dir/src/main.cpp.o: \
   /Users/roshi/Documents/GitHub/PDFtoImageConverter/src/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__assert \
