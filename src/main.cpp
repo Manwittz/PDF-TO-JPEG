@@ -48,7 +48,7 @@ void convertPdfToImageOld(const std::string& pdfPath) {
     delete doc;
 }
 
-void convertPdfToImage(const std::string& pdfPath) {
+void convertPdfToImage(const std::string& pdfPath, const std::string& savePath, int numPagesToConvert) {
     poppler::document *doc = poppler::document::load_from_file(pdfPath);
     if (doc == nullptr) {
         std::cout << "Failed to open " << pdfPath << std::endl;
@@ -56,13 +56,16 @@ void convertPdfToImage(const std::string& pdfPath) {
     }
 
     // Create a directory named after the PDF file
-    std::string folder_name = pdfPath.substr(0, pdfPath.find_last_of("."));  // Change this line
+    std::string folder_name = savePath;
     if (boost::filesystem::exists(folder_name)) {
         boost::filesystem::remove_all(folder_name);  // Remove if already exists
     }
     boost::filesystem::create_directory(folder_name);
 
-    for (int i = 0; i < doc->pages(); ++i) {
+    int totalPages = doc->pages();
+    int endPage = (numPagesToConvert == -1) ? totalPages : std::min(totalPages, numPagesToConvert);
+
+    for (int i = 0; i < endPage; ++i) {
         poppler::page *p = doc->create_page(i);
         if (p == nullptr) continue;
 
@@ -97,17 +100,46 @@ void convertPdfToImage(const std::string& pdfPath) {
     delete doc;
 }
 
-int main() {
-    const boost::filesystem::path pdfDir("pdf_folder/");
-    if (!boost::filesystem::exists(pdfDir)) {
-        std::cout << "Folder does not exist\n";
-        return 1;
+
+int main(int argc, char* argv[]) {
+    std::string pdfPath = "pdf_folder/";
+    std::string savePath = "";
+    int numPagesToConvert = -1;  // -1 means all pages
+
+    for (int i = 1; i < argc; i++) {
+        std::string arg = argv[i];
+        // -f or --file: To specify an exact file path for the PDF to convert. 
+        // If not specified, the program will convert all PDF files in the pdf_folder directory.
+        if (arg == "-f" && i + 1 < argc) {
+            pdfPath = argv[++i];
+        } 
+        // -s or --save: To specify a path where to save the generated images. 
+        // If not specified, the images will be saved in the same directory as the PDF file.
+        else if (arg == "-s" && i + 1 < argc) {
+            savePath = argv[++i];
+        } 
+        // -p or --pages: To specify the number of pages in the PDF to convert. 
+        // If not specified, all pages will be converted.
+        else if (arg == "-p" && i + 1 < argc) {
+            numPagesToConvert = std::stoi(argv[++i]);
+        }
     }
 
-    for (const auto& entry : boost::filesystem::directory_iterator(pdfDir)) {
-        if (entry.path().extension() == ".pdf") {
-            convertPdfToImage(entry.path().string());
+    // If no save path is specified, use the PDF path as the save path
+    if (savePath.empty()) {
+        savePath = pdfPath.substr(0, pdfPath.find_last_of("."));
+    }
+
+    if (boost::filesystem::is_directory(pdfPath)) {
+        for (const auto& entry : boost::filesystem::directory_iterator(pdfPath)) {
+            if (entry.path().extension() == ".pdf") {
+                std::string individual_pdf_path = entry.path().string();
+                convertPdfToImage(individual_pdf_path, savePath, numPagesToConvert);
+            }
         }
+    } else {
+        // If pdfPath is a file, convert it directly
+        convertPdfToImage(pdfPath, savePath, numPagesToConvert);
     }
 
     return 0;
