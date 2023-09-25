@@ -56,8 +56,10 @@ void convertPdfToImage(const std::string& pdfPath) {
     }
 
     // Create a directory named after the PDF file
-    std::string folder_name = pdfPath.substr(pdfPath.find_last_of("/")+1);
-    folder_name = folder_name.substr(0, folder_name.find_last_of("."));
+    std::string folder_name = pdfPath.substr(0, pdfPath.find_last_of("."));  // Change this line
+    if (boost::filesystem::exists(folder_name)) {
+        boost::filesystem::remove_all(folder_name);  // Remove if already exists
+    }
     boost::filesystem::create_directory(folder_name);
 
     for (int i = 0; i < doc->pages(); ++i) {
@@ -65,7 +67,7 @@ void convertPdfToImage(const std::string& pdfPath) {
         if (p == nullptr) continue;
 
         poppler::page_renderer renderer;
-        renderer.set_render_hint(poppler::page_renderer::text_antialiasing, true);
+        renderer.set_render_hint(poppler::page_renderer::antialiasing, true);
 
         // Get PDF page dimensions
         poppler::rectf page_rect = p->page_rect();
