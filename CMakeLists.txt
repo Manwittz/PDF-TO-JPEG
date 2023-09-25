@@ -22,5 +22,12 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_subdirectory(tests)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
-
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${OpenCV_LIBS} poppler-cpp ${GTEST_LIBRARIES} Threads::Threads)
+
+# Target for the main app
+add_executable(App src/main.cpp)
+target_link_libraries(App ${Boost_LIBRARIES} ${OpenCV_LIBS} poppler-cpp)
+
+# Separate target for tests
+add_executable(Test tests/test_main.cpp)
+target_link_libraries(Test ${PROJECT_NAME} ${Boost_LIBRARIES} ${OpenCV_LIBS} poppler-cpp ${GTEST_LIBRARIES} Threads::Threads)
