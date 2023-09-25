@@ -35,7 +35,10 @@ void convertPdfToImage(const std::string& pdfPath) {
         if (p == nullptr) continue;
 
         poppler::page_renderer renderer;
-        poppler::image img = renderer.render_page(p);
+
+        // Set resolution to 300 dpi and enable text anti-aliasing
+        renderer.set_render_hint(poppler::page_renderer::text_antialiasing, true);
+        poppler::image img = renderer.render_page(p, 300, 300, 0, 0, p->page_rect().width(), p->page_rect().height());
 
         saveImage(img, folder_name, "page_" + std::to_string(i) + ".jpg");
 
