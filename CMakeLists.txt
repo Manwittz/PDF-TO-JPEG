@@ -11,7 +11,7 @@ pkg_check_modules(POPPLER_CPP REQUIRED poppler-cpp)
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
-include_directories(${POPPLER_CPP_INCLUDE_DIRS})
+link_directories(/opt/homebrew/opt/poppler/lib)
 
 add_executable(PDFtoImageConverter src/main.cpp)
 
