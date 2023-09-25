@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream> 
 #include <boost/filesystem.hpp>
 #include <poppler/cpp/poppler-document.h>
 #include <poppler/cpp/poppler-page.h>
@@ -102,6 +103,12 @@ void convertPdfToImage(const std::string& pdfPath, const std::string& savePath, 
 
 
 int main(int argc, char* argv[]) {
+    
+    std::ofstream logFile("conversion_log.txt");  // Create a log file
+    int totalProcessed = 0;
+    int totalConverted = 0;
+    int totalSkipped = 0;
+
     std::string pdfPath = "pdf_folder/";
     std::string savePath = "";
     int numPagesToConvert = -1;  // -1 means all pages
@@ -133,6 +140,9 @@ int main(int argc, char* argv[]) {
     if (boost::filesystem::is_directory(pdfPath)) {
         for (const auto& entry : boost::filesystem::directory_iterator(pdfPath)) {
             if (entry.path().extension() == ".pdf") {
+        totalProcessed++;
+        logFile << "Processing: " << entry.path().string() << std::endl;
+    
                 std::string individual_pdf_path = entry.path().string();
                 convertPdfToImage(individual_pdf_path, savePath, numPagesToConvert);
             }
@@ -142,5 +152,13 @@ int main(int argc, char* argv[]) {
         convertPdfToImage(pdfPath, savePath, numPagesToConvert);
     }
 
+    
+    // Write summary to log file
+    logFile << "Summary:\n";
+    logFile << "Total Processed: " << totalProcessed << std::endl;
+    logFile << "Total Converted: " << totalConverted << std::endl;
+    logFile << "Total Skipped: " << totalSkipped << std::endl;
+
+    logFile.close();
     return 0;
 }
