@@ -1,3 +1,6 @@
 /Users/roshi/Documents/GitHub/PDFtoImageConverter/build/CMakeFiles/PDFtoImageConverter.dir
 /Users/roshi/Documents/GitHub/PDFtoImageConverter/build/CMakeFiles/edit_cache.dir
 /Users/roshi/Documents/GitHub/PDFtoImageConverter/build/CMakeFiles/rebuild_cache.dir
+/Users/roshi/Documents/GitHub/PDFtoImageConverter/build/tests/CMakeFiles/runUnitTests.dir
+/Users/roshi/Documents/GitHub/PDFtoImageConverter/build/tests/CMakeFiles/edit_cache.dir
+/Users/roshi/Documents/GitHub/PDFtoImageConverter/build/tests/CMakeFiles/rebuild_cache.dir

@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/roshi/Documents/GitHub/PDFtoImageConverter/build/CMakeFiles /Users/roshi/Documents/GitHub/PDFtoImageConverter/build//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/roshi/Documents/GitHub/PDFtoImageConverter/build/CMakeFiles /Users/roshi/Documents/GitHub/PDFtoImageConverter/build/tests//CMakeFiles/progress.marks
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/roshi/Documents/GitHub/PDFtoImageConverter/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,68 +103,56 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named PDFtoImageConverter
+# Convenience name for target.
+tests/CMakeFiles/runUnitTests.dir/rule:
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/runUnitTests.dir/rule
+.PHONY : tests/CMakeFiles/runUnitTests.dir/rule
 
-# Build rule for target.
-PDFtoImageConverter: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 PDFtoImageConverter
-.PHONY : PDFtoImageConverter
-
-# fast build rule for target.
-PDFtoImageConverter/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/PDFtoImageConverter.dir/build.make CMakeFiles/PDFtoImageConverter.dir/build
-.PHONY : PDFtoImageConverter/fast
-
-#=============================================================================
-# Target rules for targets named runUnitTests
-
-# Build rule for target.
-runUnitTests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 runUnitTests
+# Convenience name for target.
+runUnitTests: tests/CMakeFiles/runUnitTests.dir/rule
 .PHONY : runUnitTests
 
 # fast build rule for target.
 runUnitTests/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/runUnitTests.dir/build.make tests/CMakeFiles/runUnitTests.dir/build
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/runUnitTests.dir/build.make tests/CMakeFiles/runUnitTests.dir/build
 .PHONY : runUnitTests/fast
 
-src/main.o: src/main.cpp.o
-.PHONY : src/main.o
+test_main.o: test_main.cpp.o
+.PHONY : test_main.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/PDFtoImageConverter.dir/build.make CMakeFiles/PDFtoImageConverter.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+test_main.cpp.o:
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/runUnitTests.dir/build.make tests/CMakeFiles/runUnitTests.dir/test_main.cpp.o
+.PHONY : test_main.cpp.o
 
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
+test_main.i: test_main.cpp.i
+.PHONY : test_main.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/PDFtoImageConverter.dir/build.make CMakeFiles/PDFtoImageConverter.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+test_main.cpp.i:
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/runUnitTests.dir/build.make tests/CMakeFiles/runUnitTests.dir/test_main.cpp.i
+.PHONY : test_main.cpp.i
 
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
+test_main.s: test_main.cpp.s
+.PHONY : test_main.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/PDFtoImageConverter.dir/build.make CMakeFiles/PDFtoImageConverter.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+test_main.cpp.s:
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/runUnitTests.dir/build.make tests/CMakeFiles/runUnitTests.dir/test_main.cpp.s
+.PHONY : test_main.cpp.s
 
 # Help Target
 help:
@@ -174,11 +162,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... PDFtoImageConverter"
 	@echo "... runUnitTests"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... test_main.o"
+	@echo "... test_main.i"
+	@echo "... test_main.s"
 .PHONY : help
 
 
@@ -190,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/roshi/Documents/GitHub/PDFtoImageConverter/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

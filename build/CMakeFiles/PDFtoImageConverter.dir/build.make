@@ -128,6 +128,7 @@ PDFtoImageConverter: /opt/homebrew/lib/libopencv_wechat_qrcode.4.8.0.dylib
 PDFtoImageConverter: /opt/homebrew/lib/libopencv_xfeatures2d.4.8.0.dylib
 PDFtoImageConverter: /opt/homebrew/lib/libopencv_xobjdetect.4.8.0.dylib
 PDFtoImageConverter: /opt/homebrew/lib/libopencv_xphoto.4.8.0.dylib
+PDFtoImageConverter: /opt/homebrew/lib/libgtest.a
 PDFtoImageConverter: /opt/homebrew/lib/libboost_atomic-mt.dylib
 PDFtoImageConverter: /opt/homebrew/lib/libopencv_shape.4.8.0.dylib
 PDFtoImageConverter: /opt/homebrew/lib/libopencv_highgui.4.8.0.dylib
