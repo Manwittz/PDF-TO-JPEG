@@ -18,7 +18,8 @@ void saveImage(const poppler::image& const_img, const std::string& folder_name, 
     cv::imwrite(full_path, mat);
 }
 
-void convertPdfToImage(const std::string& pdfPath) {
+[[deprecated]]
+void convertPdfToImageOld(const std::string& pdfPath) {
     poppler::document *doc = poppler::document::load_from_file(pdfPath);
     if (doc == nullptr) {
         std::cout << "Failed to open " << pdfPath << std::endl;
@@ -39,6 +40,53 @@ void convertPdfToImage(const std::string& pdfPath) {
         // Set resolution to 300 dpi and enable text anti-aliasing
         renderer.set_render_hint(poppler::page_renderer::text_antialiasing, true);
         poppler::image img = renderer.render_page(p, 300, 300, 0, 0, p->page_rect().width(), p->page_rect().height());
+
+        saveImage(img, folder_name, "page_" + std::to_string(i) + ".jpg");
+
+        delete p;
+    }
+    delete doc;
+}
+
+void convertPdfToImage(const std::string& pdfPath) {
+    poppler::document *doc = poppler::document::load_from_file(pdfPath);
+    if (doc == nullptr) {
+        std::cout << "Failed to open " << pdfPath << std::endl;
+        return;
+    }
+
+    // Create a directory named after the PDF file
+    std::string folder_name = pdfPath.substr(pdfPath.find_last_of("/")+1);
+    folder_name = folder_name.substr(0, folder_name.find_last_of("."));
+    boost::filesystem::create_directory(folder_name);
+
+    for (int i = 0; i < doc->pages(); ++i) {
+        poppler::page *p = doc->create_page(i);
+        if (p == nullptr) continue;
+
+        poppler::page_renderer renderer;
+        renderer.set_render_hint(poppler::page_renderer::text_antialiasing, true);
+
+        // Get PDF page dimensions
+        poppler::rectf page_rect = p->page_rect();
+        double page_width = page_rect.width();
+        double page_height = page_rect.height();
+
+        // Check if dimensions are reasonable
+        if (page_width <= 0 || page_height <= 0) {
+            std::cout << "Skipping page " << i << " due to invalid dimensions." << std::endl;
+            continue;
+        }
+
+        // Calculate resolution dynamically based on PDF page dimensions
+        double dpi_x = page_width * 72.0;  // PDF units are in 1/72 inches
+        double dpi_y = page_height * 72.0; // PDF units are in 1/72 inches
+
+        // Log the calculated DPI for debugging
+        std::cout << "Calculated DPI for page " << i << ": (" << dpi_x << ", " << dpi_y << ")" << std::endl;
+
+        // Render the page into an image
+        poppler::image img = renderer.render_page(p, dpi_x, dpi_y, 0, 0, page_width, page_height);
 
         saveImage(img, folder_name, "page_" + std::to_string(i) + ".jpg");
 
